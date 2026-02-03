@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pooha302 / harock</title>
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://pooha302.com">
+    <meta property="og:title" content="pooha302 / harock">
+    <meta property="og:description" content="Personal log of pooha302 / harock">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="pooha302 / harock">
+    <meta name="twitter:description" content="Personal log of pooha302 / harock">
+    <style>
+        :root {
+            --bg-color: #1e1e1e;
+            --text-color: #d4d4d4;
+            --accent-color: #4ec9b0;
+            --green-color: #6a9955;
+            --blue-color: #569cd6;
+            --yellow-color: #dcdcaa;
+            --orange-color: #ce9178;
+            --dim-color: #3b8f3b;
+            --font-stack: 'Courier New', Courier, monospace;
+            --border-style: 2px solid var(--dim-color);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-stack);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .crt-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%,
+                    rgba(0, 0, 0, 0.1) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.3;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .tui-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            border-bottom: var(--border-style);
+            padding-bottom: 10px;
+            margin-bottom: 40px;
+            gap: 15px;
+            position: sticky;
+            top: 0;
+            background-color: var(--bg-color);
+            z-index: 1000;
+            padding-top: 20px;
+            margin-top: -20px;
+        }
+
+        .brand {
+            font-weight: bold;
+            color: var(--yellow-color);
+            margin-right: auto;
+        }
+
+        @media (max-width: 900px) {
+            .brand {
+                margin-right: 0;
+                width: 100%;
+                text-align: center;
+                margin-bottom: 5px;
+            }
+
+            .menu {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+        }
+
+        .menu {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .menu a {
+            color: var(--blue-color);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .menu a:hover {
+            background: var(--dim-color);
+            color: var(--text-color);
+        }
+
+        h1,
+        h2,
+        h3 {
+            margin: 0;
+            font-weight: normal;
+        }
+
+        .glitch {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--text-color);
+            text-transform: uppercase;
+            position: relative;
+            text-shadow: 2px 2px var(--dim-color);
+        }
+
+        .subtitle {
+            margin-top: 10px;
+            font-size: 1.2rem;
+            color: var(--orange-color);
+        }
+
+        .status {
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+
+        .blink {
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .tui-section {
+            margin-bottom: 60px;
+        }
+
+        .tui-header {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--blue-color);
+            border-bottom: 1px dashed var(--dim-color);
+            margin-bottom: 20px;
+            padding-bottom: 5px;
+        }
+
+        .tui-content {
+            border-left: 2px solid var(--dim-color);
+            padding-left: 20px;
+        }
+
+        .tui-card {
+            border: 1px solid var(--dim-color);
+            margin-bottom: 15px;
+            padding: 15px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .tui-card:hover {
+            transform: translateX(5px);
+            border-color: var(--text-color);
+            box-shadow: 4px 4px 0 var(--dim-color);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            border-bottom: 1px dotted var(--dim-color);
+            padding-bottom: 5px;
+        }
+
+        .date {
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        .company {
+            font-style: italic;
+        }
+
+        .role {
+            margin: 0;
+            color: var(--dim-color);
+        }
+
+        .skill-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .skill-category h3 {
+            margin-bottom: 10px;
+            font-size: 1rem;
+            color: var(--dim-color);
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tags span {
+            border: 1px solid var(--blue-color);
+            color: var(--blue-color);
+            padding: 4px 8px;
+            font-size: 0.9rem;
+            cursor: default;
+            transition: 0.2s;
+        }
+
+        .tags span:hover {
+            background: var(--blue-color);
+            color: var(--bg-color);
+        }
+
+        .contact-box {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .tui-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border: 2px solid var(--yellow-color);
+            color: var(--yellow-color);
+            text-decoration: none;
+            font-weight: bold;
+            text-align: center;
+            transition: 0.2s;
+        }
+
+        .tui-btn:hover {
+            background: var(--yellow-color);
+            color: #000;
+            box-shadow: 0 0 10px var(--yellow-color);
+        }
+
+        .footer-msg {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--dim-color);
+        }
+
+        @media (max-width: 600px) {
+            .tui-nav {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .card-header {
+                flex-direction: column;
+            }
+
+            .glitch {
+                font-size: 2rem;
+            }
+        }
+
+        .store-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 16px;
+            border: 1px solid var(--text-color);
+            border-radius: 8px;
+            background-color: transparent;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: 0.2s;
+            min-width: 140px;
+        }
+
+        .store-btn:hover {
+            background-color: var(--dim-color);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .store-btn i {
+            font-size: 1.8rem;
+        }
+
+        .btn-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+
+        .btn-text .small {
+            font-size: 0.7rem;
+            font-weight: normal;
+        }
+
+        .btn-text .big {
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        .store-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            filter: grayscale(100%);
+        }
+
+        .store-btn.disabled:hover {
+            transform: none;
+            box-shadow: none;
+            background-color: transparent;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="crt-overlay"></div>
+    <div class="crt-overlay"></div>
+
+    <div class="container">
+        <nav class="tui-nav">
+            <div class="brand">root@pooha302:~$</div>
+            <ul class="menu">
+                <li><a href="#about">[ ABOUT ]</a></li>
+                <li><a href="#experience">[ EXPERIENCE ]</a></li>
+                <li><a href="#projects">[ PROJECTS ]</a></li>
+                <li><a href="#skills">[ SKILLS ]</a></li>
+                <li><a href="#contact">[ CONTACT ]</a></li>
+            </ul>
+        </nav>
+
+        <header id="hero">
+            <div class="tui-box">
+                <h1 class="glitch" data-text="pooha302 / harock">pooha302 / harock</h1>
+                <h2 class="subtitle">> B-boy / Bassist / Data Engineer / Full Stack Developer</h2>
+                <p class="status">System Status: <span class="blink">ONLINE</span></p>
+            </div>
+        </header>
+
+        <main>
+            <section id="about" class="tui-section">
+                <div class="tui-header">/// ABOUT.txt</div>
+                <div class="tui-content">
+                    <p>> Location: Busan, South Korea</p>
+                    <p>> Education: Pusan National Univ. (CSE) [2003 - 2011]</p>
+                    <p>> Specialized in Big Data technologies and Full Stack development.</p>
+                    <p>> I enjoy developing anything interesting, regardless of the field.</p>
+                    <p>> Loves Vim & Firefox, and these days I am into Vibe Coding.</p>
+                </div>
+            </section>
+
+            <section id="experience" class="tui-section">
+                <div class="tui-header">/// EXPERIENCE_LOG.db</div>
+                <div class="timeline">
+                    <div class="tui-card">
+                        <div class="card-header">
+                            <span class="company">트리노드(주)</span>
+                            <span class="date">2016.07 - 2025.02</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="role">> 데이터분석팀장, 데이터 엔지니어</p>
+                        </div>
+                    </div>
+
+                    <div class="tui-card">
+                        <div class="card-header">
+                            <span class="company">(주)이스트에이드</span>
+                            <span class="date">2013.07 - 2016.06</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="role">> 부설연구소, 데이터 엔지니어</p>
+                        </div>
+                    </div>
+
+                    <div class="tui-card">
+                        <div class="card-header">
+                            <span class="company">(주)이스트소프트</span>
+                            <span class="date">2010.12 - 2013.07</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="role">> news.zum.com 개발</p>
+                        </div>
+                    </div>
+
+                    <div class="tui-card">
+                        <div class="card-header">
+                            <span class="company">(주)블루솜</span>
+                            <span class="date">2009.09 - 2010.07</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="role">> 웹게임 부유천하 개발</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+
+            <section id="activities" class="tui-section">
+                <div class="tui-header">/// SIDE_QUESTS.log</div>
+                <div class="tui-card">
+                    <div class="card-header">
+                        <span class="company">밴드 '35년산 우유'</span>
+                        <span class="date">2025 - Present</span>
+                    </div>
+                    <div class="card-body">> Bassist</div>
+                </div>
+                <div class="tui-card">
+                    <div class="card-header">
+                        <span class="company">밴드 '흔들림'</span>
+                        <span class="date">2012 - Present</span>
+                    </div>
+                    <div class="card-body">> Bassist / Leader</div>
+                </div>
+                <div class="tui-card">
+                    <div class="card-header">
+                        <span class="company">B-boy 'oshare crew'</span>
+                        <span class="date">2003 - Present</span>
+                    </div>
+                    <div class="card-body">> Founding Member</div>
+                </div>
+            </section>
+
+
+            <section id="projects" class="tui-section">
+                <div class="tui-header">/// PROJECT_BUILD.sh</div>
+                <div class="tui-card">
+                    <div class="card-header">
+                        <span class="company">Did it</span>
+                        <span class="date">Mobile App</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="role">> The stylish and sensible daily log tool.</p>
+                        <div style="margin-top: 15px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                            <a href="#" class="store-btn disabled">
+                                <i class="fab fa-apple"></i>
+                                <div class="btn-text">
+                                    <span class="small">Download on the</span>
+                                    <span class="big">App Store</span>
+                                </div>
+                            </a>
+                            <a href="#" class="store-btn disabled">
+                                <i class="fab fa-google-play"></i>
+                                <div class="btn-text">
+                                    <span class="small">GET IT ON</span>
+                                    <span class="big">Google Play</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="tui-card">
+                    <div class="card-header">
+                        <span class="company">TableSort+</span>
+                        <span class="date">Browser Extension</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="role">> Make the table sortable by Ctrl+Click (or Cmd+Click on Mac)</p>
+                        <div style="margin-top: 15px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                            <a href="https://buly.kr/BeLnH1o" target="_blank" class="store-btn">
+                                <i class="fab fa-firefox-browser"></i>
+                                <div class="btn-text">
+                                    <span class="small">Get it on</span>
+                                    <span class="big">Firefox</span>
+                                </div>
+                            </a>
+                            <a href="https://buly.kr/90cQYmY" target="_blank" class="store-btn">
+                                <i class="fab fa-chrome"></i>
+                                <div class="btn-text">
+                                    <span class="small">Available in the</span>
+                                    <span class="big">Chrome Store</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="skills" class="tui-section">
+                <div class="tui-header">/// SKILL_TREE.json</div>
+                <div class="skill-grid">
+                    <div class="skill-category">
+                        <h3>[ BIG DATA ]</h3>
+                        <div class="tags">
+                            <span><i class="fas fa-database"></i> Hadoop</span>
+                            <span><i class="fas fa-layer-group"></i> Pig Latin</span>
+                            <span><i class="fas fa-server"></i> Hive</span>
+                            <span><i class="fas fa-table"></i> Impala</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>[ BACKEND ]</h3>
+                        <div class="tags">
+                            <span><i class="fab fa-java"></i> Java</span>
+                            <span><i class="fas fa-leaf"></i> Spring Framework</span>
+                            <span><i class="fas fa-terminal"></i> Shell Script</span>
+                            <span><i class="fas fa-database"></i> MySQL</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>[ INFRA & TOOLS ]</h3>
+                        <div class="tags">
+                            <span><i class="fab fa-aws"></i> AWS</span>
+                            <span><i class="fab fa-docker"></i> Docker</span>
+                            <span><i class="fab fa-git-alt"></i> Git</span>
+                            <span><i class="fas fa-file-code"></i> Vim</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="contact" class="tui-section">
+                <div class="tui-header">/// COMMS_LINK</div>
+                <div class="contact-box" style="flex-wrap: wrap; justify-content: start;">
+                    <a href="https://www.facebook.com/pooha302" target="_blank" class="tui-btn"><i
+                            class="fab fa-facebook"></i> FACEBOOK</a>
+                    <a href="https://www.instagram.com/hunsung.harock/" target="_blank" class="tui-btn"><i
+                            class="fab fa-instagram"></i> INSTAGRAM</a>
+                    <a href="https://www.linkedin.com/in/pooha302/" target="_blank" class="tui-btn"><i
+                            class="fab fa-linkedin"></i> LINKEDIN</a>
+                    <a href="https://github.com/pooha302" target="_blank" class="tui-btn"><i class="fab fa-github"></i>
+                        GITHUB</a>
+                    <a href="mailto:pooha302@gmail.com" class="tui-btn"><i class="fas fa-envelope"></i> MAIL</a>
+                </div>
+                <p class="footer-msg">End of line.</p>
+            </section>
+        </main>
+    </div>
+    <script>
+        console.log("System Online.");
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
