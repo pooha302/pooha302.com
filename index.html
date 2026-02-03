@@ -570,12 +570,35 @@
     <script>
         console.log("System Online.");
 
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
+        // GA Event Helper
+        function trackGAEvent(category, label, value) {
+            if (typeof gtag === 'function') {
+                gtag('event', 'click', {
+                    'event_category': category,
+                    'event_label': label,
+                    'value': value
                 });
+                console.log(`GA Track: [${category}] ${label}`);
+            }
+        }
+
+        document.querySelectorAll('a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                const text = this.innerText.trim();
+
+                // 1. Internal Section Navigation
+                if (href && href.startsWith('#')) {
+                    trackGAEvent('Navigation', text || href);
+                    e.preventDefault();
+                    document.querySelector(href).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+                // 2. External Links (Social, Stores, etc)
+                else if (href && (href.startsWith('http') || href.startsWith('mailto:'))) {
+                    trackGAEvent('External Link', text || href);
+                }
             });
         });
     </script>
