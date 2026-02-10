@@ -571,6 +571,51 @@
         </main>
     </div>
     <script>
+        (function () {
+            const separator = '------------------------------------------------------------------------------------------------------------------------';
+            const fontInfo = 'font-family: monospace; font-weight: bold; font-size: 14px;';
+            const colors = {
+                terminalGreen: '#4ec9b0',
+                red: '#ff6b6b',
+                yellow: '#feca57',
+                cyan: '#48dbfb',
+                green: '#1dd1a1',
+                purple: '#5f27cd',
+                pink: '#ff9ff3',
+                blue: '#54a0ff',
+                gray: '#d4d4d4'
+            };
+
+            const lineColors = [
+                colors.red, colors.yellow, colors.cyan, colors.green, colors.purple, colors.pink
+            ].sort(() => Math.random() - 0.5);
+
+            console.log(
+                `%c${separator}\n` +
+                '%c                   _           _____ ___  ___            __    _                          _    \n' +
+                '%c _ __   ___   ___ | |__   __ _|___ // _ \\|__ \\          / /   | |__   __ _ _ __ ___   ___| | __\n' +
+                '%c| \'_ \\ / _ \\ / _ \\| \'_ \\ / _` | |_ \\| | | | / /        / /    | \'_ \\ / _` | \'__/ _ \\ / __| |/ /\n' +
+                '%c| |_) | (_) | (_) | | | | (_| |___) | |_| |/ /_       / /     | | | | (_| | | | (_) | (__|   < \n' +
+                '%c| .__/ \\___/ \\___/|_| |_|\\__,_|____/ \\___/|____|     /_/      |_| |_|\\__,_|_|  \\___/ \\___|_|\\_\\\n' +
+                '%c|_|                                                                                             \n' +
+                '\n' +
+                `%c${separator}\n` +
+                '%croot@pooha302:~$ %cIf you\'re curious about me, contact me through the links in /// COMMS_LINK.log\n' +
+                `%c${separator}\n`,
+                `color: ${colors.terminalGreen}; font-family: monospace;`,
+                `color: ${lineColors[0]}; ${fontInfo}`,
+                `color: ${lineColors[1]}; ${fontInfo}`,
+                `color: ${lineColors[2]}; ${fontInfo}`,
+                `color: ${lineColors[3]}; ${fontInfo}`,
+                `color: ${lineColors[4]}; ${fontInfo}`,
+                `color: ${lineColors[5]}; ${fontInfo}`,
+                `color: ${colors.terminalGreen}; font-family: monospace;`,
+                `color: ${colors.terminalGreen}; font-family: monospace; font-weight: bold;`,
+                `color: ${colors.gray}; font-family: monospace;`,
+                `color: ${colors.terminalGreen}; font-family: monospace;`
+            );
+        })();
+
         function trackGAEvent(category, label, value) {
             if (typeof gtag === 'function') {
                 gtag('event', 'click', {
