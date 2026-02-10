@@ -573,7 +573,8 @@
     <script>
         (function () {
             const separator = '------------------------------------------------------------------------------------------------------------------------';
-            const fontInfo = 'font-family: monospace; font-weight: bold; font-size: 14px;';
+            const prompt = 'root@pooha302:~$ ';
+            const terminalBase = 'font-family: monospace;';
             const colors = {
                 terminalGreen: '#4ec9b0',
                 red: '#ff6b6b',
@@ -582,9 +583,13 @@
                 green: '#1dd1a1',
                 purple: '#5f27cd',
                 pink: '#ff9ff3',
-                blue: '#54a0ff',
                 gray: '#d4d4d4'
             };
+
+            const headerFont = `${terminalBase} font-weight: bold; font-size: 14px;`;
+            const terminalStyle = `color: ${colors.terminalGreen}; ${terminalBase}`;
+            const promptStyle = `${terminalStyle} font-weight: bold;`;
+            const textStyle = `color: ${colors.gray}; ${terminalBase}`;
 
             const lineColors = [
                 colors.red, colors.yellow, colors.cyan, colors.green, colors.purple, colors.pink
@@ -600,19 +605,20 @@
                 '%c|_|                                                                                             \n' +
                 '\n' +
                 `%c${separator}\n` +
-                '%croot@pooha302:~$ %cIf you\'re curious about me, contact me through the links in /// COMMS_LINK.log\n' +
+                `%c${prompt}%cNothing to hack here!\n` +
+                `%c${prompt}%cIf you're curious about me, contact me through the links in /// COMMS_LINK\n` +
                 `%c${separator}\n`,
-                `color: ${colors.terminalGreen}; font-family: monospace;`,
-                `color: ${lineColors[0]}; ${fontInfo}`,
-                `color: ${lineColors[1]}; ${fontInfo}`,
-                `color: ${lineColors[2]}; ${fontInfo}`,
-                `color: ${lineColors[3]}; ${fontInfo}`,
-                `color: ${lineColors[4]}; ${fontInfo}`,
-                `color: ${lineColors[5]}; ${fontInfo}`,
-                `color: ${colors.terminalGreen}; font-family: monospace;`,
-                `color: ${colors.terminalGreen}; font-family: monospace; font-weight: bold;`,
-                `color: ${colors.gray}; font-family: monospace;`,
-                `color: ${colors.terminalGreen}; font-family: monospace;`
+                terminalStyle,
+                `color: ${lineColors[0]}; ${headerFont}`,
+                `color: ${lineColors[1]}; ${headerFont}`,
+                `color: ${lineColors[2]}; ${headerFont}`,
+                `color: ${lineColors[3]}; ${headerFont}`,
+                `color: ${lineColors[4]}; ${headerFont}`,
+                `color: ${lineColors[5]}; ${headerFont}`,
+                terminalStyle,
+                promptStyle, textStyle,
+                promptStyle, textStyle,
+                terminalStyle
             );
         })();
 
