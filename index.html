@@ -574,9 +574,6 @@
         </main>
     </div>
     <script>
-        console.log("System Online.");
-
-        // GA Event Helper
         function trackGAEvent(category, label, value) {
             if (typeof gtag === 'function') {
                 gtag('event', 'click', {
@@ -584,7 +581,6 @@
                     'event_label': label,
                     'value': value
                 });
-                console.log(`GA Track: [${category}] ${label}`);
             }
         }
 
@@ -593,7 +589,6 @@
                 const href = this.getAttribute('href');
                 const text = this.innerText.trim();
 
-                // 1. Internal Section Navigation
                 if (href && href.startsWith('#')) {
                     trackGAEvent('Navigation', text || href);
                     e.preventDefault();
@@ -601,7 +596,6 @@
                         behavior: 'smooth'
                     });
                 }
-                // 2. External Links (Social, Stores, etc)
                 else if (href && (href.startsWith('http') || href.startsWith('mailto:'))) {
                     trackGAEvent('External Link', text || href);
                 }
