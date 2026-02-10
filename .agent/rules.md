@@ -15,3 +15,4 @@
 ## File Formatting
 - Always apply these rules when creating or modifying files
 - Ensure proper formatting before committing changes
+- **Maximum 1 consecutive blank line** - Remove any instances of 2 or more consecutive blank lines
