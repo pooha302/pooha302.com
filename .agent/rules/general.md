@@ -16,3 +16,7 @@
 - Always apply these rules when creating or modifying files
 - Ensure proper formatting before committing changes
 - **Maximum 1 consecutive blank line** - Remove any instances of 2 or more consecutive blank lines
+
+## Git Rules
+- **Do not perform `git commit` or `git push` unless explicitly requested by the USER.**
+- Always wait for the USER's permission before executing any git commands that modify the remote repository or create new commits.
